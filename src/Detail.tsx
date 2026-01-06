@@ -177,6 +177,7 @@ function PokemonDetail() {
             ${getTypeColor(pokemon.types[0].type.name)}
           `}
         >
+           <Link to="/" className="text-red">Back</Link>
 
           <img
             src={
@@ -272,9 +273,11 @@ function PokemonDetail() {
           </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 mt-auto flex-wrap">
 
-              {/* ===== Weight ===== */}
+          <div >
+            <div className="grid min-[600px]:grid-cols-1 lg:grid-cols-2 gap-2">
+              <div className="grid min-[300px]:grid-cols-2 lg:grid-cols-3 gap-2 p-2" >
+                  {/* ===== Weight ===== */}
               <div className="
                 bg-slate-50
                 rounded-2xl
@@ -285,7 +288,7 @@ function PokemonDetail() {
                 flex-col
                 justify-between
                 h-28
-              ">
+               ">
                 <div className="flex items-center gap-2 text-slate-600">
                   <Barbell size={22} color="#3b814d" weight="light" />
                   <span className="text-sm font-medium">น้ำหนัก</span>
@@ -323,6 +326,25 @@ function PokemonDetail() {
                   <span className="text-sm text-slate-500 ml-1">m</span>
                 </div>
               </div>
+               <div className="
+                bg-slate-50
+                rounded-2xl
+                border
+                border-slate-100
+                p-4
+                flex
+                flex-col
+                justify-between
+                h-28
+               ">
+                <h1>1</h1>
+              </div>
+              </div>
+              
+
+            </div>
+
+              
 
           </div>
 
@@ -349,7 +371,7 @@ function PokemonDetail() {
               </Link>
             ))}
           </div>
-           <Link to="/" className="text-blue-500">Back</Link>
+          
         </section>
         
       )}
