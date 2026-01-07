@@ -377,15 +377,25 @@ function PokemonDetail() {
 
             {/* GIF */}
             <div className="bg-slate-50 rounded-2xl border border-slate-100 p-4 flex items-center justify-center h-28">
-              <img
-                src={
-                  pokemon.sprites.other?.showdown?.front_default ||
-                  pokemon.sprites.front_default ||
-                  ""
-                }
-                alt={`${pokemon.name} gif`}
-                className="h-full object-contain"
-              />
+                 <figure className="hover-gallery max-w-60">
+                    
+                      <img
+                        src={
+                          pokemon.sprites.other?.showdown?.front_default ||
+                          pokemon.sprites.front_default ||
+                          ""
+                        }
+                        alt={`${pokemon.name} front`}
+                        className="h-20 object-contain"
+                      />
+                      {pokemon.sprites.other?.showdown?.back_default && (
+                        <img
+                          src={pokemon.sprites.other.showdown.back_default}
+                          alt={`${pokemon.name} back`}
+                          className="h-20 object-contain"
+                        />
+                      )}
+                  </figure>
             </div>
           </div>
         </div>
@@ -485,9 +495,11 @@ function PokemonDetail() {
               </Link>
             ))}
           </div>
+        
         </section>
       )}
     </div>
+    
   );
 }
 
