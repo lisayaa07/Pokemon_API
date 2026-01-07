@@ -229,6 +229,7 @@ function PokemonDetail() {
         >
           <ArrowLeft />
         </button>
+        
 
         <img
           src={
@@ -239,12 +240,12 @@ function PokemonDetail() {
           alt={pokemon.name}
           className="
               absolute
-              left-1/2
-              -translate-x-1/2
+              left-1/2  
               bottom-[-60px]
               w-72
               drop-shadow-xl
               z-20
+              animate-float
             "
         />
       </header>

@@ -5,3 +5,16 @@ body{
     background-color: aliceblue;
     color: black;
 }
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, -10px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
