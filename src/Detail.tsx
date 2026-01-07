@@ -211,21 +211,21 @@ function PokemonDetail() {
         <button
           onClick={() => navigate("/")}
           className="
-                  absolute
-                  top-4
-                  left-4
-                  z-30
-                  bg-white/80
-                  backdrop-blur
-                  px-4
-                  py-2
-                  rounded-full
-                  text-sm
-                  font-medium
-                  shadow
-                  hover:bg-white
-                  transition
-                "
+    fixed
+    top-4
+    left-4
+    z-50
+    bg-white/80
+    backdrop-blur
+    px-4
+    py-2
+    rounded-full
+    text-sm
+    font-medium
+    shadow
+    hover:bg-white
+    transition
+  "
         >
           <ArrowLeft />
         </button>
@@ -377,51 +377,50 @@ function PokemonDetail() {
 
             {/* GIF */}
             <div className="bg-slate-50 rounded-2xl border border-slate-100 p-4 flex items-center justify-center h-28">
-                 <figure className="hover-gallery max-w-60">
-                    
-                      <img
-                        src={
-                          pokemon.sprites.other?.showdown?.front_default ||
-                          pokemon.sprites.front_default ||
-                          ""
-                        }
-                        alt={`${pokemon.name} front`}
-                        className="h-20 object-contain"
-                      />
-                      {pokemon.sprites.other?.showdown?.back_default && (
-                        <img
-                          src={pokemon.sprites.other.showdown.back_default}
-                          alt={`${pokemon.name} back`}
-                          className="h-20 object-contain"
-                        />
-                      )}
-                      <img
-                        src={
-                          pokemon.sprites.other?.showdown?.front_default ||
-                          pokemon.sprites.front_default ||
-                          ""
-                        }
-                        alt={`${pokemon.name} front`}
-                        className="h-20 object-contain"
-                      />
-                      {pokemon.sprites.other?.showdown?.back_default && (
-                        <img
-                          src={pokemon.sprites.other.showdown.back_default}
-                          alt={`${pokemon.name} back`}
-                          className="h-20 object-contain"
-                        />
-                      )}
-                  </figure>
+              <figure className="hover-gallery max-w-60">
+                <img
+                  src={
+                    pokemon.sprites.other?.showdown?.front_default ||
+                    pokemon.sprites.front_default ||
+                    ""
+                  }
+                  alt={`${pokemon.name} front`}
+                  className="h-20 object-contain"
+                />
+                {pokemon.sprites.other?.showdown?.back_default && (
+                  <img
+                    src={pokemon.sprites.other.showdown.back_default}
+                    alt={`${pokemon.name} back`}
+                    className="h-20 object-contain"
+                  />
+                )}
+                <img
+                  src={
+                    pokemon.sprites.other?.showdown?.front_default ||
+                    pokemon.sprites.front_default ||
+                    ""
+                  }
+                  alt={`${pokemon.name} front`}
+                  className="h-20 object-contain"
+                />
+                {pokemon.sprites.other?.showdown?.back_default && (
+                  <img
+                    src={pokemon.sprites.other.showdown.back_default}
+                    alt={`${pokemon.name} back`}
+                    className="h-20 object-contain"
+                  />
+                )}
+              </figure>
             </div>
           </div>
         </div>
       </div>
 
-     <div className="mt-8 mx-10">
-  <h2 className="text-lg font-bold mb-3 text-center">Base Stats</h2>
+      <div className="mt-8 mx-10">
+        <h2 className="text-lg font-bold mb-3 text-center">Base Stats</h2>
 
-  <div
-    className="
+        <div
+          className="
       bg-slate-50
       rounded-2xl
       border
@@ -432,67 +431,66 @@ function PokemonDetail() {
       md:grid-cols-2
       gap-6
     "
-  >
-    {/* ===== LEFT COLUMN ===== */}
-    <div className="space-y-3">
-      {pokemon.stats.slice(0, 3).map((s) => (
-        <div key={s.stat.name} className="flex items-center gap-3">
-          <span className="w-24 text-sm font-medium text-slate-600">
-            {statNameMap[s.stat.name] || s.stat.name}
-          </span>
+        >
+          {/* ===== LEFT COLUMN ===== */}
+          <div className="space-y-3">
+            {pokemon.stats.slice(0, 3).map((s) => (
+              <div key={s.stat.name} className="flex items-center gap-3">
+                <span className="w-24 text-sm font-medium text-slate-600">
+                  {statNameMap[s.stat.name] || s.stat.name}
+                </span>
 
-          <div className="flex-1 h-3 bg-slate-200 rounded-full overflow-hidden">
-            <div
-              className={`
+                <div className="flex-1 h-3 bg-slate-200 rounded-full overflow-hidden">
+                  <div
+                    className={`
                 h-full
                 rounded-full
                 transition-all
                 ${statColorMap[s.stat.name] || "bg-slate-800"}
               `}
-              style={{
-                width: `${(Math.min(s.base_stat, 150) / 150) * 100}%`,
-              }}
-            />
+                    style={{
+                      width: `${(Math.min(s.base_stat, 150) / 150) * 100}%`,
+                    }}
+                  />
+                </div>
+
+                <span className="w-10 text-right text-sm font-bold text-slate-800">
+                  {s.base_stat}
+                </span>
+              </div>
+            ))}
           </div>
 
-          <span className="w-10 text-right text-sm font-bold text-slate-800">
-            {s.base_stat}
-          </span>
-        </div>
-      ))}
-    </div>
+          {/* ===== RIGHT COLUMN ===== */}
+          <div className="space-y-3">
+            {pokemon.stats.slice(3, 6).map((s) => (
+              <div key={s.stat.name} className="flex items-center gap-3">
+                <span className="w-24 text-sm font-medium text-slate-600">
+                  {statNameMap[s.stat.name] || s.stat.name}
+                </span>
 
-    {/* ===== RIGHT COLUMN ===== */}
-    <div className="space-y-3">
-      {pokemon.stats.slice(3, 6).map((s) => (
-        <div key={s.stat.name} className="flex items-center gap-3">
-          <span className="w-24 text-sm font-medium text-slate-600">
-            {statNameMap[s.stat.name] || s.stat.name}
-          </span>
-
-          <div className="flex-1 h-3 bg-slate-200 rounded-full overflow-hidden">
-            <div
-              className={`
+                <div className="flex-1 h-3 bg-slate-200 rounded-full overflow-hidden">
+                  <div
+                    className={`
                 h-full
                 rounded-full
                 transition-all
                 ${statColorMap[s.stat.name] || "bg-slate-800"}
               `}
-              style={{
-                width: `${(Math.min(s.base_stat, 150) / 150) * 100}%`,
-              }}
-            />
+                    style={{
+                      width: `${(Math.min(s.base_stat, 150) / 150) * 100}%`,
+                    }}
+                  />
+                </div>
+
+                <span className="w-10 text-right text-sm font-bold text-slate-800">
+                  {s.base_stat}
+                </span>
+              </div>
+            ))}
           </div>
-
-          <span className="w-10 text-right text-sm font-bold text-slate-800">
-            {s.base_stat}
-          </span>
         </div>
-      ))}
-    </div>
-  </div>
-</div>
-
+      </div>
 
       {/* ===== VARIETIES ===== */}
       {varieties.length > 0 && (
@@ -511,11 +509,9 @@ function PokemonDetail() {
               </Link>
             ))}
           </div>
-        
         </section>
       )}
     </div>
-    
   );
 }
 
