@@ -470,7 +470,7 @@ function PokemonDetail() {
 
       {/* ===== VARIETIES ===== */}
       {varieties.length > 0 && (
-        <section className="mt-10 mx-10 mb-5">
+        <section className="mt-10 mx-10 ">
           <h2 className="text-2xl font-bold mb-4">Other Forms</h2>
           <div className="flex gap-4 flex-wrap">
             {varieties.map((v) => (
