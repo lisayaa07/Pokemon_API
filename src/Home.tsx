@@ -250,25 +250,25 @@ function Home() {
       </section>
 
       <main className="max-w-5xl mx-auto p-4 min-h-[400px]">
-       {loading ? (
-  <div className="flex justify-center items-center h-full">
-    <span className="loading loading-spinner loading-lg"></span>
-  </div>
-) : filteredPokemons.length === 0 ? (
-  // ✅ กรณีไม่มี Pokémon
-  <div className="flex justify-center items-center h-40">
-    <p className="text-slate-400 text-sm text-center">
-      No Pokémon found for the selected type.
-    </p>
-  </div>
-) : (
-  // ✅ กรณีมี Pokémon
-  <div className="grid min-[300px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 text-center">
-    {filteredPokemons.map((p) => (
-      <div
-        key={p.id}
-        onClick={() => navigate(`/pokemon/${p.id}`)}
-        className="
+        {loading ? (
+          <div className="flex justify-center items-center h-full">
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
+        ) : filteredPokemons.length === 0 ? (
+          // ✅ กรณีไม่มี Pokémon
+          <div className="flex justify-center items-center h-40">
+            <p className="text-slate-400 text-sm text-center">
+              No Pokémon found for the selected type.
+            </p>
+          </div>
+        ) : (
+          // ✅ กรณีมี Pokémon
+          <div className="grid min-[300px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 text-center">
+            {filteredPokemons.map((p) => (
+              <div
+                key={p.id}
+                onClick={() => navigate(`/pokemon/${p.id}`)}
+                className="
           bg-gray-900
           cursor-pointer
           rounded-2xl
@@ -277,31 +277,37 @@ function Home() {
           flex
           flex-col
         "
-      >
-        <div className="hover-3d">
-          <figure className="w-full">
-            <img
-              src={p.sprites.other?.home?.front_default || ""}
-              alt={p.name}
-              className="mx-auto w-full h-auto object-contain max-h-[200px]"
-            />
-          </figure>
+              >
+                <div className="hover-3d">
+                  <figure className="w-full">
+                    <img
+                      src={p.sprites.other?.home?.front_default || ""}
+                      alt={p.name}
+                      className="mx-auto w-full h-auto object-contain max-h-[200px]"
+                    />
+                  </figure>
 
-          {/* 3D helper divs */}
-          <div></div><div></div><div></div><div></div>
-          <div></div><div></div><div></div><div></div>
-        </div>
+                  {/* 3D helper divs */}
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
 
-        <div className="flex items-center justify-between mt-3 px-1">
-          <h2 className="capitalize text-white text-xs sm:text-sm font-medium truncate">
-            {p.name}
-          </h2>
+                <div className="flex items-center justify-between mt-3 px-1">
+                  <h2 className="capitalize text-white text-xs sm:text-sm font-medium truncate">
+                    {p.name}
+                  </h2>
 
-          <div className="flex items-center gap-1 shrink-0">
-            {p.types.map((t) => (
-              <span
-                key={t.type.name}
-                className={`
+                  <div className="flex items-center gap-1 shrink-0">
+                    {p.types.map((t) => (
+                      <span
+                        key={t.type.name}
+                        className={`
                   text-[9px] sm:text-[10px]
                   px-1.5 py-0.5
                   rounded-full
@@ -309,17 +315,16 @@ function Home() {
                   capitalize
                   ${getTypeColor(t.type.name)}
                 `}
-              >
-                {t.type.name}
-              </span>
+                      >
+                        {t.type.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
-        </div>
-      </div>
-    ))}
-  </div>
-)}
-
+        )}
 
         <div className="flex justify-center items-center gap-2 mt-6 flex-wrap">
           <button

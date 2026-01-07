@@ -1,10 +1,10 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-body{
-    background-color: aliceblue;
-    color: black;
+body {
+  @apply bg-base-100 text-base-content;
 }
+
 
 @keyframes float {
   0%, 100% {
