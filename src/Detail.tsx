@@ -1,7 +1,8 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate,Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Barbell,Ruler } from "phosphor-react";
+import { Barbell,Ruler,ArrowLeft } from "phosphor-react";
+
 
 interface Variety {
   name: string;
@@ -88,7 +89,7 @@ const getTypeColor = (type: string): string => {
 function PokemonDetail() {
  const { id = "" } = useParams<{ id: string }>();
   const [pokemon, setPokemon] = useState<PokemonDetail | null>(null);
-
+  const navigate = useNavigate();
   const [varieties, setVarieties] = useState<Variety[]>([]);
   const [evolutions, setEvolutions] = useState<Evolution[]>([]);
   const [loading, setLoading] = useState(true);
@@ -189,7 +190,27 @@ function PokemonDetail() {
             ${getTypeColor(pokemon.types[0].type.name)}
           `}
         >
-           <Link to="/" className="text-red">Back</Link>
+            <button
+                onClick={() => navigate("/")}
+                className="
+                  absolute
+                  top-4
+                  left-4
+                  z-30
+                  bg-white/80
+                  backdrop-blur
+                  px-4
+                  py-2
+                  rounded-full
+                  text-sm
+                  font-medium
+                  shadow
+                  hover:bg-white
+                  transition
+                "
+              >
+               <ArrowLeft />
+          </button>
 
           <img
             src={
