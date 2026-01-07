@@ -215,7 +215,7 @@ function PokemonDetail() {
             top-4
             left-4
             z-50
-            bg-white/80
+            bg-base-content/50
             backdrop-blur
             px-4
             py-2
@@ -227,7 +227,7 @@ function PokemonDetail() {
             transition
           "
         >
-          <ArrowLeft />
+          <ArrowLeft className="text-white"/>
         </button>
         <label className="swap swap-rotate fixed
             top-4
@@ -295,7 +295,7 @@ function PokemonDetail() {
                       text-[9px] sm:text-[10px]
                       px-1.5 py-0.5
                       rounded-full
-                      text-white
+                     
                       capitalize
                       ${getTypeColor(t.type.name)}
                     `}
@@ -310,7 +310,7 @@ function PokemonDetail() {
         <div className="p-2">
           {evolutions.length > 0 && (
             <div className="grids">
-              <h2 className="text-lg font-bold mb-3 text-center text-white">
+              <h2 className="text-lg font-bold mb-3 text-center ">
                 Evolution Chain
               </h2>
 
@@ -370,21 +370,21 @@ function PokemonDetail() {
             {/* Weight */}
             <div className=" bg-base-200 rounded-2xl border-slate-100  p-4 flex flex-col justify-between h-28">
               <div className="flex items-center gap-2 text-slate-600">
-                <Barbell size={22} className=" text-white"/>
-                <span className="text-sm font-medium text-white">Weight</span>
+                <Barbell size={22} className="text-base-content/70"/>
+                <span className="text-sm font-medium text-base-content/70">Weight</span>
               </div>
-              <div className="self-end font-bold">
-                {pokemon.weight / 10} <span className="text-sm">kg</span>
+              <div className="self-end font-bold text-base-content/70">
+                {pokemon.weight / 10} <span className="text-sm ">kg</span>
               </div>
             </div>
 
             {/* Height */}
             <div className=" bg-base-200 rounded-2xl  border-slate-100 p-4 flex flex-col justify-between h-28">
               <div className="flex items-center gap-2 text-slate-600">
-                <Ruler size={22} className="text-white" />
-                <span className="text-sm font-medium text-white">Height</span>
+                <Ruler size={22}  className="text-base-content/70"/>
+                <span className="text-sm font-medium text-base-content/70">Height</span>
               </div>
-              <div className="self-end font-bold">
+              <div className="self-end font-bold text-base-content/70">
                 {pokemon.height / 10} <span className="text-sm">m</span>
               </div>
             </div>
@@ -392,8 +392,8 @@ function PokemonDetail() {
             {/* Abilities */}
             <div className=" bg-base-200 rounded-2xl  border-slate-100 p-4 flex flex-col justify-between h-28">
               <div className="flex items-center gap-2 text-slate-600">
-                <Ghost size={22} className="text-white" />
-                <span className="text-sm font-medium text-white">Abilities</span>
+                <Ghost size={22} className="text-base-content/70" />
+                <span className="text-sm font-medium text-base-content/70">Abilities</span>
               </div>
               <div className="self-end text-right text-sm">
                 {pokemon.abilities.map((a) => (
@@ -470,7 +470,7 @@ function PokemonDetail() {
           <div className="space-y-3 ">
             {pokemon.stats.slice(0, 3).map((s) => (
               <div key={s.stat.name} className="flex items-center gap-3">
-                <span className="w-24 text-sm font-medium text-slate-600">
+                <span className="w-24 text-sm font-medium text-base-content/70 ">
                   {statNameMap[s.stat.name] || s.stat.name}
                 </span>
 
@@ -480,7 +480,8 @@ function PokemonDetail() {
                 h-full
                 rounded-full
                 transition-all
-                ${statColorMap[s.stat.name] || "bg-slate-800 text-white"}
+                
+                ${statColorMap[s.stat.name] || "bg-slate-800"}
               `}
                     style={{
                       width: `${(Math.min(s.base_stat, 150) / 150) * 100}%`,
@@ -488,7 +489,7 @@ function PokemonDetail() {
                   />
                 </div>
 
-                <span className="w-10 text-right text-sm font-bold text-slate-800">
+                <span className="w-10 text-right text-sm font-bold text-base-content/70 ">
                   {s.base_stat}
                 </span>
               </div>
@@ -499,7 +500,7 @@ function PokemonDetail() {
           <div className="space-y-3">
             {pokemon.stats.slice(3, 6).map((s) => (
               <div key={s.stat.name} className="flex items-center gap-3">
-                <span className="w-24 text-sm font-medium text-slate-600">
+                <span className="w-24 text-sm font-medium text-base-content/70 ">
                   {statNameMap[s.stat.name] || s.stat.name}
                 </span>
 
@@ -517,7 +518,7 @@ function PokemonDetail() {
                   />
                 </div>
 
-                <span className="w-10 text-right text-sm font-bold text-slate-800">
+                <span className="w-10 text-right text-sm font-bold text-base-content/70">
                   {s.base_stat}
                 </span>
               </div>
@@ -536,7 +537,7 @@ function PokemonDetail() {
                 key={v.id}
                 to={`/pokemon/${v.id}`}
                 className={`px-4 py-2 rounded border ${
-                  v.is_default ? "bg-black text-white" : "hover:bg-gray-100"
+                  v.is_default ? "bg-black" : "hover:bg-gray-100"
                 }`}
               >
                 {v.name}
