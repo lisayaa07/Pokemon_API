@@ -22,6 +22,7 @@ interface SpeciesVariety {
   };
 }
 
+
 interface EvolutionChain {
   species: {
     name: string;
@@ -86,10 +87,8 @@ const getTypeColor = (type: string): string => {
 
 function PokemonDetail() {
  const { id = "" } = useParams<{ id: string }>();
-
-
-
   const [pokemon, setPokemon] = useState<PokemonDetail | null>(null);
+
   const [varieties, setVarieties] = useState<Variety[]>([]);
   const [evolutions, setEvolutions] = useState<Evolution[]>([]);
   const [loading, setLoading] = useState(true);
@@ -116,10 +115,11 @@ function PokemonDetail() {
       if (speciesData.varieties?.length > 1) {
         setVarieties(
           speciesData.varieties.map((v: SpeciesVariety) => ({
-            name: v.pokemon.name,
-            is_default: v.is_default,
-            id: v.pokemon.url.split("/").filter(Boolean).pop()!,
-          }))
+          name: v.pokemon.name,
+          is_default: v.is_default,
+          id: v.pokemon.url.split("/").filter(Boolean).pop()!,
+        }))
+
         );
       }
 
@@ -215,7 +215,7 @@ function PokemonDetail() {
               {pokemon.name}
             </h1>
             <div className="flex items-center gap-1 ">
-                {pokemon.types.map((t) => (
+                {pokemon.types.map((t: PokemonDetail["types"][number]) => (
                   <span
                     key={t.type.name}
                     className={`
