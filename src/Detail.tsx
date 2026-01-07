@@ -395,6 +395,22 @@ function PokemonDetail() {
                           className="h-20 object-contain"
                         />
                       )}
+                      <img
+                        src={
+                          pokemon.sprites.other?.showdown?.front_default ||
+                          pokemon.sprites.front_default ||
+                          ""
+                        }
+                        alt={`${pokemon.name} front`}
+                        className="h-20 object-contain"
+                      />
+                      {pokemon.sprites.other?.showdown?.back_default && (
+                        <img
+                          src={pokemon.sprites.other.showdown.back_default}
+                          alt={`${pokemon.name} back`}
+                          className="h-20 object-contain"
+                        />
+                      )}
                   </figure>
             </div>
           </div>
