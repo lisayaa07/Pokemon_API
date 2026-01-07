@@ -14,6 +14,22 @@ interface Evolution {
   id: string;
   image: string;
 }
+interface SpeciesVariety {
+  is_default: boolean;
+  pokemon: {
+    name: string;
+    url: string;
+  };
+}
+
+interface EvolutionChain {
+  species: {
+    name: string;
+    url: string;
+  };
+  evolves_to: EvolutionChain[];
+}
+
 
 interface PokemonDetail {
   id: number;
@@ -41,33 +57,37 @@ interface PokemonDetail {
   }[];
 }
 
-const getTypeColor = (type: string): string=> {
-    const colors:Record<string,string> = {
-      grass: 'bg-green-500',
-      fire: 'bg-red-500',
-      water: 'bg-blue-500',
-      bug: 'bg-lime-600',
-      normal: 'bg-gray-400',
-      poison: 'bg-purple-600',
-      electric: 'bg-yellow-400',
-      ground: 'bg-amber-700',
-      fairy: 'bg-pink-400',
-      fighting: 'bg-orange-700',
-      psychic: 'bg-pink-600',
-      rock: 'bg-stone-600',
-      ghost: 'bg-indigo-800',
-      ice: 'bg-cyan-400',
-      dragon: 'bg-indigo-600',
-      steel: 'bg-slate-400',
-      flying: 'bg-sky-400',
-    };
-    return colors[type] || 'bg-gray-500';
+const getTypeColor = (type: string): string => {
+  const colors: Record<string, string> = {
+    grass: "bg-green-500",
+    fire: "bg-red-500",
+    water: "bg-blue-500",
+    bug: "bg-lime-600",
+    normal: "bg-gray-400",
+    poison: "bg-purple-600",
+    electric: "bg-yellow-400",
+    ground: "bg-amber-700",
+    fairy: "bg-pink-400",
+    fighting: "bg-orange-700",
+    psychic: "bg-pink-600",
+    rock: "bg-stone-600",
+    ghost: "bg-indigo-800",
+    ice: "bg-cyan-400",
+    dragon: "bg-indigo-600",
+    steel: "bg-slate-400",
+    flying: "bg-sky-400",
   };
+
+  return colors[type] ?? "bg-gray-500";
+};
+
 
 
 
 function PokemonDetail() {
-  const { id } = useParams();
+ const { id = "" } = useParams<{ id: string }>();
+
+
 
   const [pokemon, setPokemon] = useState<PokemonDetail | null>(null);
   const [varieties, setVarieties] = useState<Variety[]>([]);
@@ -78,73 +98,65 @@ function PokemonDetail() {
 
 
   useEffect(() => {
-    const fetchPokemonDetail = async () => {
-      try {
-        setLoading(true);
+  const fetchPokemonDetail = async () => {
+    try {
+      setLoading(true);
 
-      
-        const pokemonRes = await axios.get(
-          `https://pokeapi.co/api/v2/pokemon/${id}`
+      const pokemonRes = await axios.get<PokemonDetail>(
+        `https://pokeapi.co/api/v2/pokemon/${id}`
+      );
+      const data = pokemonRes.data;
+      setPokemon(data);
+
+      // Species
+      const speciesRes = await axios.get(data.species.url);
+      const speciesData = speciesRes.data;
+
+      // Varieties
+      if (speciesData.varieties?.length > 1) {
+        setVarieties(
+          speciesData.varieties.map((v: SpeciesVariety) => ({
+            name: v.pokemon.name,
+            is_default: v.is_default,
+            id: v.pokemon.url.split("/").filter(Boolean).pop()!,
+          }))
         );
-        const data: PokemonDetail = pokemonRes.data;
-        setPokemon(data);
-
-        // 2️⃣ Species (Varieties + Evolution)
-        if (data.species?.url) {
-          const speciesRes = await axios.get(data.species.url);
-          const speciesData = speciesRes.data;
-
-          //  Varieties (ร่างอื่น)
-          if (speciesData.varieties?.length > 1) {
-            setVarieties(
-              speciesData.varieties.map((v: any) => ({
-                name: v.pokemon.name,
-                is_default: v.is_default,
-                id: v.pokemon.url.split("/").filter(Boolean).pop(),
-              }))
-            );
-          }
-
-          //  Evolution Chain
-          if (speciesData.evolution_chain?.url) {
-            const evoRes = await axios.get(
-              speciesData.evolution_chain.url
-            );
-            const evoData = evoRes.data;
-
-            const evoList: Evolution[] = [];
-
-            const traverseChain = (chain: any) => {
-              const evoId = chain.species.url
-                .split("/")
-                .filter(Boolean)
-                .pop();
-
-              evoList.push({
-                name: chain.species.name,
-                id: evoId,
-                image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evoId}.png`,
-              });
-
-              chain.evolves_to.forEach((child: any) =>
-                traverseChain(child)
-              );
-            };
-
-            traverseChain(evoData.chain);
-            setEvolutions(evoList);
-          }
-        }
-      } catch (err: any) {
-        console.error(err);
-        setError("ไม่สามารถโหลดข้อมูล Pokémon ได้");
-      } finally {
-        setLoading(false);
       }
-    };
 
-    fetchPokemonDetail();
-  }, [id]);
+      // Evolution
+      if (speciesData.evolution_chain?.url) {
+        const evoRes = await axios.get(speciesData.evolution_chain.url);
+        const evoData = evoRes.data;
+
+        const evoList: Evolution[] = [];
+
+        const traverseChain = (chain: EvolutionChain) => {
+          const evoId =
+            chain.species.url.split("/").filter(Boolean).pop()!;
+
+          evoList.push({
+            name: chain.species.name,
+            id: evoId,
+            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${evoId}.png`,
+          });
+
+          chain.evolves_to.forEach(traverseChain);
+        };
+
+        traverseChain(evoData.chain);
+        setEvolutions(evoList);
+      }
+    } catch (err) {
+      console.error(err);
+      setError("ไม่สามารถโหลดข้อมูล Pokémon ได้");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchPokemonDetail();
+}, [id]);
+
 
 
 
@@ -276,7 +288,7 @@ function PokemonDetail() {
 
           <div >
             <div className="grid min-[600px]:grid-cols-1 lg:grid-cols-2 gap-2">
-              <div className="grid min-[300px]:grid-cols-2 lg:grid-cols-3 gap-2 p-2" >
+              <div className="grid min-[300px]:grid-cols-2 lg:grid-cols-4 gap-2 p-2" >
                   {/* ===== Weight ===== */}
               <div className="
                 bg-slate-50
@@ -327,6 +339,19 @@ function PokemonDetail() {
                 </div>
               </div>
                <div className="
+                bg-slate-50
+                rounded-2xl
+                border
+                border-slate-100
+                p-4
+                flex
+                flex-col
+                justify-between
+                h-28
+               ">
+                <h1>1</h1>
+              </div>
+              <div className="
                 bg-slate-50
                 rounded-2xl
                 border

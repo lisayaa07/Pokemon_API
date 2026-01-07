@@ -20,34 +20,43 @@ interface PokemonDetail {
         front_default: string | null;
       };
       "official-artwork"?: {
-       front_shiny: string | null;
+        front_shiny: string | null;
       };
     };
   };
+  types: {
+    slot: number;
+    type: {
+      name: string;
+      url: string;
+    };
+  }[];
 }
 
- const getTypeColor = (type) => {
-    const colors = {
-      grass: 'bg-green-500',
-      fire: 'bg-red-500',
-      water: 'bg-blue-500',
-      bug: 'bg-lime-600',
-      normal: 'bg-gray-400',
-      poison: 'bg-purple-600',
-      electric: 'bg-yellow-400',
-      ground: 'bg-amber-700',
-      fairy: 'bg-pink-400',
-      fighting: 'bg-orange-700',
-      psychic: 'bg-pink-600',
-      rock: 'bg-stone-600',
-      ghost: 'bg-indigo-800',
-      ice: 'bg-cyan-400',
-      dragon: 'bg-indigo-600',
-      steel: 'bg-slate-400',
-      flying: 'bg-sky-400',
-    };
-    return colors[type] || 'bg-gray-500';
+
+ const getTypeColor = (type: string): string => {
+  const colors: Record<string, string> = {
+    grass: "bg-green-500",
+    fire: "bg-red-500",
+    water: "bg-blue-500",
+    bug: "bg-lime-600",
+    normal: "bg-gray-400",
+    poison: "bg-purple-600",
+    electric: "bg-yellow-400",
+    ground: "bg-amber-700",
+    fairy: "bg-pink-400",
+    fighting: "bg-orange-700",
+    psychic: "bg-pink-600",
+    rock: "bg-stone-600",
+    ghost: "bg-indigo-800",
+    ice: "bg-cyan-400",
+    dragon: "bg-indigo-600",
+    steel: "bg-slate-400",
+    flying: "bg-sky-400",
   };
+
+  return colors[type] ?? "bg-gray-500";
+};
 
 
 function Home() {
@@ -80,25 +89,32 @@ function Home() {
   const limit = 48;
 
 useEffect(() => {
-  setLoading(true);
-  const offset = (page - 1) * limit;
+  const fetchPokemons = async () => {
+    try {
+      setLoading(true);
+      const offset = (page - 1) * limit;
 
-  axios
-    .get(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`)
-    .then(async (res) => {
-      const results: PokemonItem[] = res.data.results;
+      const res = await axios.get(
+        `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
+      );
 
-      //  คำนวณจำนวนหน้าทั้งหมด
       setTotalPages(Math.ceil(res.data.count / limit));
 
       const pokemonData = await Promise.all(
-        results.map((p) => axios.get(p.url))
+        res.data.results.map((p: PokemonItem) => axios.get(p.url))
       );
 
       setPokemons(pokemonData.map((r) => r.data));
+    } catch (err) {
+      console.error(err);
+    } finally {
       setLoading(false);
-    });
+    }
+  };
+
+  fetchPokemons();
 }, [page]);
+
 
 
   return (
@@ -146,7 +162,7 @@ useEffect(() => {
                 <figure className="w-full ">
 
                   <img
-                    src={p.sprites.other?.["official-artwork"]?.front_shiny || ""}
+                    src={p.sprites.other?.home?.front_default|| ""}
                     alt={p.name}
                  
                     className="mx-auto w-full h-auto object-contain max-h-[200px] "
