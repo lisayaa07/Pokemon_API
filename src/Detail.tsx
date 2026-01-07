@@ -1,7 +1,7 @@
 import { useParams, useNavigate,Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Barbell,Ruler,ArrowLeft } from "phosphor-react";
+import { Barbell,Ruler,ArrowLeft,Ghost} from "phosphor-react";
 
 
 interface Variety {
@@ -47,6 +47,10 @@ interface PokemonDetail {
       "official-artwork"?: {
         front_default: string | null;
       };
+      showdown?: {
+        front_default: string | null;
+        back_default: string | null;
+      };
     };
   };
   species: {
@@ -57,7 +61,18 @@ interface PokemonDetail {
       name: string;
     };
   }[];
+  abilities: {
+    ability: {
+      name: string;
+      url: string;
+    };
+    is_hidden: boolean;
+    slot: number;
+  }[];
 }
+
+
+
 
 const getTypeColor = (type: string): string => {
   const colors: Record<string, string> = {
@@ -214,7 +229,7 @@ function PokemonDetail() {
 
           <img
             src={
-              pokemon.sprites.other?.["official-artwork"]?.front_default ||
+              pokemon.sprites.other?.home?.front_default ||
               pokemon.sprites.front_default ||
               ""
             }
@@ -324,7 +339,7 @@ function PokemonDetail() {
                ">
                 <div className="flex items-center gap-2 text-slate-600">
                   <Barbell size={22} color="#3b814d" weight="light" />
-                  <span className="text-sm font-medium">น้ำหนัก</span>
+                  <span className="text-sm font-medium">Weight</span>
                 </div>
 
                 <div className="self-end text-right">
@@ -349,7 +364,7 @@ function PokemonDetail() {
                ">
                 <div className="flex items-center gap-2 text-slate-600">
                   <Ruler size={22} color="#3b814d" weight="light" />
-                  <span className="text-sm font-medium">ส่วนสูง</span>
+                  <span className="text-sm font-medium">Height</span>
                 </div>
 
                 <div className="self-end text-right">
@@ -359,32 +374,75 @@ function PokemonDetail() {
                   <span className="text-sm text-slate-500 ml-1">m</span>
                 </div>
               </div>
-               <div className="
-                bg-slate-50
-                rounded-2xl
-                border
-                border-slate-100
-                p-4
-                flex
-                flex-col
-                justify-between
-                h-28
-               ">
-                <h1>1</h1>
+               <div
+                  className="
+                    bg-slate-50
+                    rounded-2xl
+                    border
+                    border-slate-100
+                    p-4
+                    flex
+                    flex-col
+                    justify-between
+                    h-28
+                  "
+                >
+                  <div className="flex items-center gap-2 text-slate-600">
+                    <Ghost size={22} color="#3b814d" weight="light" />
+                    <span className="text-sm font-medium">Abilities</span>
+                  </div>
+
+                  <div className="self-end text-right flex flex-col gap-1">
+                    {pokemon.abilities.map((a) => (
+                      <span
+                        key={a.ability.name}
+                        className={`
+                          text-sm
+                          font-medium
+                          capitalize
+                          ${
+                            a.is_hidden
+                              ? "text-slate-400"
+                              : "text-slate-800"
+                          }
+                        `}
+                      >
+                        {a.ability.name}
+                        {a.is_hidden && (
+                          <span className="text-xs ml-1">(Hidden)</span>
+                        )}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+             <div
+                className="
+                  bg-slate-50
+                  rounded-2xl
+                  border
+                  border-slate-100
+                  p-4
+                  flex
+                  items-center
+                  justify-center
+                  h-28
+                "
+              >
+                <div className="self-end text-right flex flex-col gap-1">
+                  <img
+                  src={
+                    pokemon.sprites.other?.showdown?.front_default ||
+                    pokemon.sprites.front_default ||
+                    ""
+                  }
+                  alt={`${pokemon.name} gif`}
+                  className="h-full object-contain"
+                />
+                </div>  
+                
               </div>
-              <div className="
-                bg-slate-50
-                rounded-2xl
-                border
-                border-slate-100
-                p-4
-                flex
-                flex-col
-                justify-between
-                h-28
-               ">
-                <h1>1</h1>
-              </div>
+
               </div>
               
 
